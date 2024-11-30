@@ -5,7 +5,7 @@
 ```
 docker compose up
 ```
-[http://localhost:8000](localhost:8000)
+[http://localhost:8000](http://localhost:8000)
 
 ### メモ
 Next.jsで作成TypeScriptで作成予定
