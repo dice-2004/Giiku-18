@@ -1,0 +1,11 @@
+services:
+  node:
+    build:
+      context: ./oshikatsu
+      dockerfile: ./../dockerfile
+    ports:
+      - 8000:3000
+    volumes:
+      - ./oshikatsu:/usr/src/oshikatsu
+    init: true
+
