@@ -8,5 +8,5 @@ services:
     volumes:
       - ./oshikatsu:/usr/src/oshikatsu
     init: true
-    tty: true
+    # tty: true
 
