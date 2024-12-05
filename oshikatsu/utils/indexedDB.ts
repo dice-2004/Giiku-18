@@ -1,69 +1,91 @@
-import Dexie, { Table } from 'dexie';
+import { Dexie, Table } from 'dexie';
 
-// データモデルの定義
-export interface Channel {
-    channelID: string;
+interface Streamer {
     name: string;
+    youtube?: string | null;
+    twitch?: string | null;
+    twitter?: string | null;
 }
 
 class MyDatabase extends Dexie {
-    channels!: Table<Channel>; // Channelテーブル
+    streamers!: Table<Streamer>;
 
     constructor() {
-        super('myDatabaseV3'); // データベース名
-        this.version(3).stores({
-            // テーブル定義：主キーとインデックス
-            channels: 'name, channelID', // 主キー: channelID, インデックス: name
+        super('MyStreamersDatabase');
+        this.version(1).stores({
+            streamers: 'name, youtube, twitch, twitter'
         });
     }
 }
 
-// データベースインスタンスをエクスポート
-export const db = new MyDatabase();
+const db = new MyDatabase();
 
-export const saveChannel = async (channel: Channel) => {
-    try {
-        await db.channels.add(channel); // テーブルにデータを追加
-        console.log('Channel added:', channel);
-    } catch (error) {
-        console.error('Failed to add channel:', error);
-    }
-};
+export const useDatabase = () => {
+    const addStreamer = async (streamer: Streamer): Promise<{ success: boolean; message: string }> => {
+        try {
+            // 同じ名前のストリーマーが存在するかチェック
+            const existingStreamer = await db.streamers.get(streamer.name);
+            if (existingStreamer) {
+                return { success: false, message: '同じ名前のストリーマーが既に存在します。' };
+            }
 
-export const getChannel = async (channelID: string) => {
-    try {
-        const channel = await db.channels.get(channelID); // 主キーで検索
-        console.log('Fetched channel:', channel);
-        return channel;
-    } catch (error) {
-        console.error('Failed to fetch channel:', error);
-    }
-};
+            // 新しいストリーマーを追加
+            await db.streamers.add(streamer);
+            console.log('Streamer added with name:', streamer.name);
+            return { success: true, message: 'ストリーマーが正常に追加されました。' };
+        } catch (error) {
+            console.error('Failed to add streamer:', error);
+            return { success: false, message: 'ストリーマーの追加に失敗しました。' };
+        }
+    };
 
-export const getAllChannels = async () => {
-    try {
-        const channels = await db.channels.toArray(); // 全データを配列として取得
-        console.log('All channels:', channels);
-        return channels;
-    } catch (error) {
-        console.error('Failed to fetch all channels:', error);
-    }
-};
+    const getStreamer = async (name: string): Promise<Streamer | null> => {
+        try {
+            const streamer = await db.streamers.get(name);
+            if (!streamer) {
+                console.warn(`Streamer with name "${name}" not found.`);
+            }
+            return streamer || null;
+        } catch (error) {
+            console.error(`Failed to retrieve streamer with name "${name}":`, error);
+            return null;
+        }
+    };
 
-export const updateChannel = async (channelID: string, updatedData: Partial<Channel>) => {
-    try {
-        await db.channels.update(channelID, updatedData); // 指定した主キーのデータを更新
-        console.log(`Channel ${channelID} updated with:`, updatedData);
-    } catch (error) {
-        console.error('Failed to update channel:', error);
-    }
-};
+    const getAllStreamers = async (): Promise<Streamer[]> => {
+        try {
+            return await db.streamers.toArray();
+        } catch (error) {
+            console.error('Failed to retrieve streamers:', error);
+            return [];
+        }
+    };
 
-export const deleteChannel = async (channelID: string) => {
-    try {
-        await db.channels.delete(channelID); // 主キーで削除
-        console.log(`Channel ${channelID} deleted`);
-    } catch (error) {
-        console.error('Failed to delete channel:', error);
-    }
+    const updateStreamer = async (name: string, updates: Partial<Streamer>): Promise<{ success: boolean; message: string }> => {
+        try {
+            await db.streamers.update(name, updates);
+            return { success: true, message: 'ストリーマー情報が正常に更新されました。' };
+        } catch (error) {
+            console.error('Failed to update streamer:', error);
+            return { success: false, message: 'ストリーマー情報の更新に失敗しました。' };
+        }
+    };
+
+    const deleteStreamer = async (name: string): Promise<{ success: boolean; message: string }> => {
+        try {
+            await db.streamers.delete(name);
+            return { success: true, message: 'ストリーマーが正常に削除されました。' };
+        } catch (error) {
+            console.error('Failed to delete streamer:', error);
+            return { success: false, message: 'ストリーマーの削除に失敗しました。' };
+        }
+    };
+
+    return {
+        addStreamer,
+        getStreamer,
+        getAllStreamers,
+        updateStreamer,
+        deleteStreamer,
+    };
 };
