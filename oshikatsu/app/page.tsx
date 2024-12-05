@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -47,6 +48,9 @@ export default function Home() {
           >
             Read our docs
           </a>
+          <Link href={"/ヒカキン?example1=うんちっち&example2=大魔神&example3=ここに見参！"} className="text-blue-600 hover:underline">
+            hikakinn
+          </Link>
         </div>
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
