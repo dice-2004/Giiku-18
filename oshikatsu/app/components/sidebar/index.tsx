@@ -9,7 +9,7 @@ import {
     UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import { useDatabase } from '@/utils/indexedDB';
-import './Sidebar.css';
+import './style.css';
 
 // メニューアイテムの型定義
 type MenuItem = {
