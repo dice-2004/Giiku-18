@@ -66,21 +66,34 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({ face }) => {
       mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
     };
 
-    let countDown = 0;
+    let countStop = 0;
+		let countClick = 0;
+		let isClick = false;
 
     const handleMouseUp = () => {
-      countDown = 50;
+			if (countClick > 0) {
+				isClick = true;
+			} else {
+				countStop = 50;
+			}
     };
+
+		const handleMouseDown = () => {
+			countClick = 10;
+		}
 
     const animate = () => {
       requestAnimationFrame(animate);
 
-      if (countDown > 0) {
-        countDown--;
+      if (countStop > 0) {
+        countStop--;
       } else {
         cube.rotation.x += 0.00603;
         cube.rotation.y += 0.0081;
       }
+			if (countClick > 0) {
+				countClick--;
+			}
 
       controls.update();
       raycaster.setFromCamera(mouse, camera);
@@ -90,9 +103,15 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({ face }) => {
         const faceIndex = intersects[0].face!.materialIndex;
         overlayMesh.rotation.copy(cube.rotation);
         overlayMesh.material = overlayMesh.material.map((_, i) => (i === faceIndex ? highLightMaterial : overlayMaterials[i]));
+				if (isClick) {
+					console.log(`Click${faceIndex}`);
+					window.location.href = face[faceIndex].jumpUrl;
+					isClick = false;
+				}
         overlayMesh.visible = true;
       } else {
         overlayMesh.visible = false;
+				isClick = false
       }
 
       renderer.render(scene, camera);
@@ -101,12 +120,14 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({ face }) => {
     animate();
 
     document.addEventListener('mouseup', handleMouseUp);
+		document.addEventListener('mousedown', handleMouseDown);
     document.addEventListener('mousemove', handleMouseMove);
 
     return () => {
       mount.removeChild(renderer.domElement);
       document.removeEventListener('mouseup', handleMouseUp);
       document.removeEventListener('mousemove', handleMouseMove);
+			document.removeEventListener('mousedown', handleMouseDown);
     };
   }, [face]);
 
