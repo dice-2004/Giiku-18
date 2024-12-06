@@ -21,10 +21,28 @@
 //     return <div ref={animationContainer}></div>;
 // }
 
-export default function (){
+// export default function (){
+//     return (
+//         <div>
+//             ヘッダー
+//         </div>
+//     );
+// }
+
+import Image from 'next/image'
+import myImage from '@/public/oshikatsu.png'
+
+export default function () {
     return (
-        <div>
-            ヘッダー
-        </div>
-    );
+        <Image 
+            src={myImage} 
+            alt="説明テキスト"
+            width={250} 
+            height={70} 
+            layout="fixed"  // 画像のレイアウト
+            quality={75}         // 画質の調整
+            priority             // 重要な画像の優先読み込み
+            placeholder="blur"
+        />
+    )
 }

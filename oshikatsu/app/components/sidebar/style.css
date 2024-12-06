@@ -38,6 +38,10 @@
     background-color: rgb(227, 227, 224);
 }
 
+.title {
+    font-weight: 500;
+}
+
 .navigation ul li.active {
     background-color: rgb(216, 216, 201);
     border-top-left-radius: 20px;

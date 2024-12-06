@@ -1,0 +1,125 @@
+/* styles.module.css */
+.container {
+    min-height: 90vh;
+    z-index: 10;
+    padding: 2%;
+}
+
+.mainNavigation {
+    background-color: rgb(250, 249, 249);
+    border-bottom: none;
+
+    border-radius: 1rem 1rem 0 0;
+}
+
+.navContainer {
+    display: flex;
+    gap: 0px;
+    padding-left: 25px;
+    margin-bottom: 0;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+}
+
+.navButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem 1rem;
+    color: rgb(95, 94, 91);
+    background-color: white;
+    gap: 5px;
+    min-width: 115px;
+    border-radius: 15px 15px 0 0;
+    border: none;
+    position: relative;
+    margin-top: 12px;
+    font-size: 1rem;
+
+    text-align: center;
+}
+
+.navButton:focus {
+    outline: none; /* ブラウザのデフォルトのフォーカスアウトラインを消す */
+    box-shadow: none; /* フォーカス時のボックスシャドウを消す */
+}
+
+
+
+
+.navButtonNonActive {
+    background-color: rgb(250, 249, 249);
+}
+
+.navButtonNonActive:hover {
+    background-color: rgb(246, 246, 246);
+}
+
+
+
+.navButtonActive {
+    background-color: rgb(244, 243, 243);
+}
+
+/*====================角に丸み（赤にしたらわかりやすい）====================*/
+.navButtonActive::before, .navButtonActive::after {
+    content: '';
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.navButtonActive::before {
+    top: 4px;
+    left: -35px;
+    box-shadow: 16px 16px 0px rgb(244, 243, 243);
+}
+
+.navButtonActive::after {
+    top: 4px;
+    right: -35px;
+    box-shadow: -16px 16px 0px rgb(244, 243, 243);
+}
+
+.contentArea {
+    padding: 1.5rem;
+    background-color: rgb(244, 243, 243);
+    border-radius: 0 0 1rem 1rem;
+}
+
+/*======================================================================*/
+
+/*====================各種SNSの色====================*/
+
+.activeYoutube {
+    color: #cd201f;
+}
+
+.activeTwitch {
+    color: #9146FF;
+}
+
+.activeTwitter {
+    color: #00aced;
+}
+
+.activeInstagram {
+    color: #3f729b;
+}
+
+.activeFacebook {
+    color: #315096;
+}
+
+/*=================================================*/
+
+.icon {
+    min-width: 20px;
+    min-height: 20px;
+    max-width: 20px;
+    max-height: 20px;
+    vertical-align: middle;
+}

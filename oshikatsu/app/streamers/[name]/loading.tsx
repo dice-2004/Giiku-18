@@ -8,7 +8,7 @@ const LoadingSpinner = () => {
         <div className={styles.loadingContainer}>
             <div className={styles.spinner}></div>
             {/* pタグにローカルクラスを適用 */}
-            <p className={styles.loadingText}>Loading videos...</p>
+            <p className={styles.loadingText}>Loading ...</p>
         </div>
     );
 };
