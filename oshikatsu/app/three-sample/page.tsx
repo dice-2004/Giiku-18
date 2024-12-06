@@ -19,8 +19,8 @@ const Page: React.FC = () => {
   return (
     <div style={{ backgroundColor: '#AFAFB0' }}>
       <h1>Three.js with React Three Fiber</h1>
-      <ThreeComponent face={face} />
-      <ThreeComponent face={face} />
+      <ThreeComponent face={face} width='300px' height='300px' />
+      <ThreeComponent face={face} width='100px' height='100px' />
     </div>
   );
 };
