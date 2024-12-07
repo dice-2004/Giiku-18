@@ -11,9 +11,11 @@ interface Face {
 
 interface ThreeSceneProps {
   face: Face[];
+	width: string;
+	height: string;
 }
 
-const ThreeScene: React.FC<ThreeSceneProps> = ({ face }) => {
+const ThreeScene: React.FC<ThreeSceneProps> = ({ face, width, height }) => {
   const mountRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -131,7 +133,7 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({ face }) => {
     };
   }, [face]);
 
-  return <div ref={mountRef} style={{ width: '300px', height: '300px', display: 'inline-block' }} />;
+  return <div ref={mountRef} style={{ width: width, height: height, display: 'inline-block' }} />;
 };
 
 export default ThreeScene;
