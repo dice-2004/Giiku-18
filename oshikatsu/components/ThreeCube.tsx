@@ -9,13 +9,13 @@ interface Face {
   texture: string;
 }
 
-interface ThreeSceneProps {
+interface ThreeCudeProps {
   face: Face[];
 	width: string;
 	height: string;
 }
 
-const ThreeScene: React.FC<ThreeSceneProps> = ({ face, width, height }) => {
+const ThreeCude: React.FC<ThreeCudeProps> = ({ face, width, height }) => {
   const mountRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -136,4 +136,4 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({ face, width, height }) => {
   return <div ref={mountRef} style={{ width: width, height: height, display: 'inline-block' }} />;
 };
 
-export default ThreeScene;
+export default ThreeCude;

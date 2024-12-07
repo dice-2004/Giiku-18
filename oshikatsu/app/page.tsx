@@ -17,14 +17,9 @@ export default function Home() {
   ];
   return (
       <div>
-					<ThreeCube face={face} />
-          <p>メインコンテンツ2</p>
+					<ThreeCube face={face} width="300px" height="300px" />
+					<ThreeCube face={face} width="300px" height="300px" />
           <p>メインコンテンツ3</p>
-          <p>メインコンテンツ4</p>
-          <p>メインコンテンツ5</p>
-          <p>メインコンテンツ6</p>
-          <p>メインコンテンツ7</p>
-          <p>メインコンテンツ8</p>
       </div>
   );
 }
