@@ -19,8 +19,9 @@ interface ThreeCudeProps {
 
 const ThreeCude: React.FC<ThreeCudeProps> = ({ streamers, width, height, lookAt }) => {
   const mountRef = useRef<HTMLDivElement>(null);
-	const [ nowX, setNowX ] = useState(Math.random() * 100);
-  const [ nowY, setNowY ] = useState(Math.random() * 100);
+	const [ nowX, setNowX ] = useState(Math.random() * 3);
+  const [ nowY, setNowY ] = useState(Math.random() * 3);
+  const [ nowZ, setNowZ ] = useState(Math.random() * 3);
 
   useEffect(() => {
     const mount = mountRef.current;
@@ -45,6 +46,7 @@ const ThreeCude: React.FC<ThreeCudeProps> = ({ streamers, width, height, lookAt 
     scene.add(cube);
     cube.rotation.x = nowX;
     cube.rotation.y = nowY;
+    cube.rotation.z = nowZ;
 
     const overlayMaterials: THREE.Material[] = Array(6).fill(new THREE.MeshBasicMaterial({
       color: 0x000000,
@@ -79,12 +81,38 @@ const ThreeCude: React.FC<ThreeCudeProps> = ({ streamers, width, height, lookAt 
     let countStop = 0;
 		let countClick = 0;
 		let isClick = false;
+    let countLook = 50;
+    const preX = nowX;
+    const preY = nowY;
+    const preZ = nowZ;
+    let tgtX = 0;
+    let tgtY = 0;
+    let tgtZ = 0;
+    switch(lookAt) {
+      case 0:
+        tgtY = -1 * Math.PI/2;
+        break;
+      case 1:
+        tgtY = Math.PI/2;
+        break;
+      case 2:
+        tgtX = Math.PI/2;
+        break;
+      case 3:
+        tgtX = -1 * Math.PI/2;
+        break;
+      case 4:
+        break;
+      case 5:
+        tgtY = Math.PI;
+        break;
+    }
 
     const handleMouseUp = () => {
 			if (countClick > 0) {
 				isClick = true;
 			} else {
-				countStop = 50;
+				countStop = 75;
 			}
     };
 
@@ -94,20 +122,28 @@ const ThreeCude: React.FC<ThreeCudeProps> = ({ streamers, width, height, lookAt 
 
     const animate = () => {
       requestAnimationFrame(animate);
-
       if(lookAt == -1){
         if (countStop > 0) {
           countStop--;
         } else {
           cube.rotation.x += 0.00603;
           cube.rotation.y += 0.0081;
+          cube.rotation.y += 0.00472;
         }
         if (countClick > 0) {
           countClick--;
         }
+      }else{
+        // cube.lookAt(camera.position);
+        // cube.rotation.x -= Math.PI / 2 ;
+        // cube.rotation.y += Math.PI / 2;
+        if(countLook > 0){
+          cube.rotation.x += (tgtX - preX) / 50;
+          cube.rotation.y += (tgtY - preY) / 50;
+          cube.rotation.z += (tgtZ - preZ) / 50;
+          countLook--;
+        }
       }
-      setNowX(cube.rotation.x);
-      setNowY(cube.rotation.y);
 
       controls.update();
       raycaster.setFromCamera(mouse, camera);
@@ -128,6 +164,9 @@ const ThreeCude: React.FC<ThreeCudeProps> = ({ streamers, width, height, lookAt 
 				isClick = false
       }
 
+      setNowX(cube.rotation.x);
+      setNowY(cube.rotation.y);
+      setNowZ(cube.rotation.z);
       renderer.render(scene, camera);
     };
 
