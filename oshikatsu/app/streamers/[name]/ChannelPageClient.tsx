@@ -5,6 +5,7 @@
 import React, { useState } from 'react';
 import { Youtube, Twitch, Twitter, Instagram, Facebook } from 'lucide-react';
 import styles from './style.module.css';
+import YouTubeVideoList from "@/app/components/youtube"
 
 
 interface ChannelPageClientProps {
@@ -18,7 +19,8 @@ const ChannelPageClient: React.FC<ChannelPageClientProps> = ({ name }) => {
         switch (activeState) {
             case 'youtube':
                 return (
-                    <div>Youtube</div>
+                    <div><YouTubeVideoList channelId='UCPkKpOHxEDcwmUAnRpIu-Ng'/></div>
+                    // <div>Youtube</div>
                 );
     
             case 'twitch':
@@ -108,6 +110,7 @@ const ChannelPageClient: React.FC<ChannelPageClientProps> = ({ name }) => {
                         </button>
                     </div>
                 </div>
+                <div className={styles.contentAreaTop}></div>
                 <div className={styles.contentArea}>
                     {selectContent()}
                 </div>

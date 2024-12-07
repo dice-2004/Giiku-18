@@ -1,9 +1,36 @@
 /* styles.module.css */
 .container {
-    min-height: 90vh;
+    max-height: 90vh;
     z-index: 10;
     padding: 2%;
 }
+
+/* .contentArea {
+    padding: 1.5rem;
+    background-color: rgb(244, 243, 243);
+    border-radius: 0 0 1rem 1rem;
+} */
+.contentArea {
+    padding: 1.5rem;
+    background-color: rgb(244, 243, 243);
+    border-radius: 0 0 1rem 1rem;
+    height: calc(100vh - 90px);
+    overflow-y: auto;
+    scrollbar-width: none;
+    position: relative;
+}
+
+.contentAreaTop {
+    background-color: rgb(244, 243, 243);
+    height: 20px;
+}
+
+
+
+
+
+
+
 
 .mainNavigation {
     background-color: rgb(250, 249, 249);
@@ -11,6 +38,7 @@
 
     border-radius: 1rem 1rem 0 0;
 }
+
 
 .navContainer {
     display: flex;
@@ -82,12 +110,6 @@
     top: 4px;
     right: -35px;
     box-shadow: -16px 16px 0px rgb(244, 243, 243);
-}
-
-.contentArea {
-    padding: 1.5rem;
-    background-color: rgb(244, 243, 243);
-    border-radius: 0 0 1rem 1rem;
 }
 
 /*======================================================================*/
