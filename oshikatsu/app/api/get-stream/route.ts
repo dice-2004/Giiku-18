@@ -73,20 +73,27 @@ export async function GET(req: Request) {
       console.error(`Response body: ${await streamResponse.text()}`);
       throw new Error(`Failed to fetch stream data: ${streamResponse.statusText}`);
     }
-
     const streamData = await streamResponse.json();
     const streamLog = await streamVideo.json();
+
+    for (let i = 0; i < streamLog.data.length; i++) {
+      streamLog.data[i].thumbnail_url = streamLog.data[i].thumbnail_url.replace('%{width}', '640').replace('%{height}', '360');
+    }
+
+
     console.log('Stream Data:', streamData); // 配信データをログに出力
     console.log('Stream Video:', streamLog); // 配信データをログに出力
 
     // 後はここで必要なデータのみ抽出して返却
 
+    // responsedata={~~~}
+
     // 配信情報がない場合
     if (streamData.data.length === 0) {
       return NextResponse.json({ message: 'No live stream found' }, { status: 200 });
     }
-
     return NextResponse.json(streamData.data[0], { status: 200 });
+    // return NextResponse.json(responsedata, { status: 200 }););
 
   } catch (error) {
     console.error('Error fetching data:', error);
