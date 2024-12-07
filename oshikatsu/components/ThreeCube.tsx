@@ -1,22 +1,27 @@
 "use client";
 
-import { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { runInNewContext } from 'vm';
 
-interface Face {
+interface Streamer{
   jumpUrl: string;
   texture: string;
 }
 
-interface ThreeSceneProps {
-  face: Face[];
+interface ThreeCudeProps {
+  streamers: Streamer[];
 	width: string;
 	height: string;
+	lookAt: number;
 }
 
-const ThreeScene: React.FC<ThreeSceneProps> = ({ face, width, height }) => {
+const ThreeCude: React.FC<ThreeCudeProps> = ({ streamers, width, height, lookAt }) => {
   const mountRef = useRef<HTMLDivElement>(null);
+	const [ nowX, setNowX ] = useState(Math.random() * 3);
+  const [ nowY, setNowY ] = useState(Math.random() * 3);
+  const [ nowZ, setNowZ ] = useState(Math.random() * 3);
 
   useEffect(() => {
     const mount = mountRef.current;
@@ -35,10 +40,13 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({ face, width, height }) => {
     controls.dampingFactor = 0.1;
 
     const geometry = new THREE.BoxGeometry();
-    const materials = face.map(f => new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load(f.texture) }));
+    const materials = streamers.map(f => new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load(f.texture) }));
 
     const cube = new THREE.Mesh(geometry, materials);
     scene.add(cube);
+    cube.rotation.x = nowX;
+    cube.rotation.y = nowY;
+    cube.rotation.z = nowZ;
 
     const overlayMaterials: THREE.Material[] = Array(6).fill(new THREE.MeshBasicMaterial({
       color: 0x000000,
@@ -61,6 +69,8 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({ face, width, height }) => {
 
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
+    mouse.x = 10000;
+    mouse.y = 10000;
 
     const handleMouseMove = (event: MouseEvent) => {
       const rect = mount.getBoundingClientRect();
@@ -71,12 +81,38 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({ face, width, height }) => {
     let countStop = 0;
 		let countClick = 0;
 		let isClick = false;
+    let countLook = 50;
+    const preX = nowX;
+    const preY = nowY;
+    const preZ = nowZ;
+    let tgtX = 0;
+    let tgtY = 0;
+    let tgtZ = 0;
+    switch(lookAt) {
+      case 0:
+        tgtY = -1 * Math.PI/2;
+        break;
+      case 1:
+        tgtY = Math.PI/2;
+        break;
+      case 2:
+        tgtX = Math.PI/2;
+        break;
+      case 3:
+        tgtX = -1 * Math.PI/2;
+        break;
+      case 4:
+        break;
+      case 5:
+        tgtY = Math.PI;
+        break;
+    }
 
     const handleMouseUp = () => {
 			if (countClick > 0) {
 				isClick = true;
 			} else {
-				countStop = 50;
+				countStop = 75;
 			}
     };
 
@@ -86,16 +122,28 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({ face, width, height }) => {
 
     const animate = () => {
       requestAnimationFrame(animate);
-
-      if (countStop > 0) {
-        countStop--;
-      } else {
-        cube.rotation.x += 0.00603;
-        cube.rotation.y += 0.0081;
+      if(lookAt == -1){
+        if (countStop > 0) {
+          countStop--;
+        } else {
+          cube.rotation.x += 0.00603;
+          cube.rotation.y += 0.0081;
+          cube.rotation.y += 0.00472;
+        }
+        if (countClick > 0) {
+          countClick--;
+        }
+      }else{
+        // cube.lookAt(camera.position);
+        // cube.rotation.x -= Math.PI / 2 ;
+        // cube.rotation.y += Math.PI / 2;
+        if(countLook > 0){
+          cube.rotation.x += (tgtX - preX) / 50;
+          cube.rotation.y += (tgtY - preY) / 50;
+          cube.rotation.z += (tgtZ - preZ) / 50;
+          countLook--;
+        }
       }
-			if (countClick > 0) {
-				countClick--;
-			}
 
       controls.update();
       raycaster.setFromCamera(mouse, camera);
@@ -107,7 +155,7 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({ face, width, height }) => {
         overlayMesh.material = overlayMesh.material.map((_, i) => (i === faceIndex ? highLightMaterial : overlayMaterials[i]));
 				if (isClick) {
 					console.log(`Click${faceIndex}`);
-					window.location.href = face[faceIndex].jumpUrl;
+					window.location.href = streamers[faceIndex].jumpUrl;
 					isClick = false;
 				}
         overlayMesh.visible = true;
@@ -116,6 +164,9 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({ face, width, height }) => {
 				isClick = false
       }
 
+      setNowX(cube.rotation.x);
+      setNowY(cube.rotation.y);
+      setNowZ(cube.rotation.z);
       renderer.render(scene, camera);
     };
 
@@ -131,9 +182,9 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({ face, width, height }) => {
       document.removeEventListener('mousemove', handleMouseMove);
 			document.removeEventListener('mousedown', handleMouseDown);
     };
-  }, [face]);
+  }, [streamers]);
 
   return <div ref={mountRef} style={{ width: width, height: height, display: 'inline-block' }} />;
 };
 
-export default ThreeScene;
+export default ThreeCude;
