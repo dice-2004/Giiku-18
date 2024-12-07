@@ -1,12 +1,12 @@
 import React from 'react';
-import ThreeCube from '../components/ThreeCube';
+import ThreeComponent from '../../components/ThreeCube';
 
 interface Face {
   jumpUrl: string;
   texture: string;
 }
 
-export default function Home() {
+const Page: React.FC = () => {
   const face: Face[] = [
     { jumpUrl: "/hikakin", texture: "/hika.jpg" },
     { jumpUrl: "/evimarabo", texture: "/evim.jpg" },
@@ -15,16 +15,14 @@ export default function Home() {
     { jumpUrl: "/noneuser", texture: "https://yt3.googleusercontent.com/emNJUpccv67FT828Z1g0mfSB0hdLBPfIf_4IMxOfpcMCepnt7ABvk3bAZXBQZJ6fZwNcl0KCNQ=s160-c-k-c0x00ffffff-no-rj" },
     { jumpUrl: "/reis", texture: "https://yt3.googleusercontent.com/eZxbjM77Nkzxg8MLTKr1gzreBkYZpZ2ITBiXx04W_6V7s0taEmMgGW1LQRU7kbaLHDmKSmk5ZQ=s160-c-k-c0x00ffffff-no-rj" },
   ];
+
   return (
-      <div>
-					<ThreeCube face={face} />
-          <p>メインコンテンツ2</p>
-          <p>メインコンテンツ3</p>
-          <p>メインコンテンツ4</p>
-          <p>メインコンテンツ5</p>
-          <p>メインコンテンツ6</p>
-          <p>メインコンテンツ7</p>
-          <p>メインコンテンツ8</p>
-      </div>
+    <div style={{ backgroundColor: '#AFAFB0' }}>
+      <h1>Three.js with React Three Fiber</h1>
+      <ThreeComponent face={face} width='300px' height='300px' />
+      <ThreeComponent face={face} width='100px' height='100px' />
+    </div>
   );
-}
+};
+
+export default Page;
