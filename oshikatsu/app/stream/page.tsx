@@ -7,6 +7,8 @@ export default function Home() {
   const [streamInfo, setStreamInfo] = useState<any>(null); // 取得した配信情報
   const [error, setError] = useState<string | null>(null); // エラー情報
 
+  // **********************　この下の関数が主要な処理　********************** //
+
   const fetchStreamInfo = async () => {
     setError(null);
     setStreamInfo(null);
@@ -25,6 +27,8 @@ export default function Home() {
       setError('An error occurred while fetching stream info');
     }
   };
+  
+  // **********************　この上の関数が主要な処理　********************** //
 
   return (
     <main style={{ padding: '20px' }}>
