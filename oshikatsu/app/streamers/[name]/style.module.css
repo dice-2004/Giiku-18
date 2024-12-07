@@ -31,7 +31,7 @@
     background-color: white;
     gap: 5px;
     min-width: 115px;
-    border-radius: 15px 15px 0 0;
+    border-radius: 15px 15px 15px 15px;
     border: none;
     position: relative;
     margin-top: 12px;
