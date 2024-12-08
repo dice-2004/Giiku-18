@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import ThreeCube from '../components/ThreeCube';
 import Icon from './icon'
 import Image from 'next/image'
+import styles from './styles.module.css';
 
 interface Streamer{
   jumpUrl: string;
@@ -15,8 +16,8 @@ export default function Home() {
     { jumpUrl: "streamers/shaka", texture: "/icon/shaka.jpg" },
     { jumpUrl: "streamers/Zerost", texture: "/icon/zerost.jpg" },
     { jumpUrl: "streamers/k4sen", texture: "/icon/k4sen.png" },
-    { jumpUrl: "streamers/kumagoro", texture: "/kuma.jpg" },
-    { jumpUrl: "streamers/noneuser", texture: "none.png" },
+    { jumpUrl: "streamers/kumagoro", texture: "/icon/kuzuha.jpg" },
+    { jumpUrl: "streamers/noneuser", texture: "/icon/kanae.jpg" },
     { jumpUrl: "streamers/reis", texture: "/reis.jpg" },
   ];
 	const [flag, setFlag] = useState(false);
@@ -44,58 +45,36 @@ export default function Home() {
           />  
         </div>
 
-        <div style={{
-          backgroundColor: 'rgb(247, 247, 245)',
-          position: 'fixed',
-          left: '10%',
-          top: '75%',
-          width: '80%',
-          height: '25%',
-          padding: '3%',
-          borderRadius: '30px 30px 0px 0px ',
-          zIndex: '5'
-        }}>
+        <div className={styles.iconList}>
           <Icon
             streamer={streamers[0]}
             setIndex={setLookAt}
             index={0}
-            width='10vw'
-            height='10vw'
           />
           <Icon
             streamer={streamers[1]}
             setIndex={setLookAt}
             index={1}
-            width='10vw'
-            height='10vw'
           />
           <Icon
             streamer={streamers[2]}
             setIndex={setLookAt}
             index={2}
-            width='10vw'
-            height='10vw'
           />
           <Icon
             streamer={streamers[3]}
             setIndex={setLookAt}
             index={3}
-            width='10vw'
-            height='10vw'
           />
           <Icon
             streamer={streamers[4]}
             setIndex={setLookAt}
             index={4}
-            width='10vw'
-            height='10vw'
           />
           <Icon
             streamer={streamers[5]}
             setIndex={setLookAt}
             index={5}
-            width='10vw'
-            height='10vw'
           />
         </div>
 					

@@ -1,6 +1,7 @@
 "use client"
 import React, { useState, useEffect, useRef } from 'react';
-import Image from 'next/image'
+import styles from './styles.module.css';
+
 
 interface Streamer{
 	jumpUrl: string;
@@ -11,11 +12,9 @@ interface iconProps {
 	streamer: Streamer;
 	setIndex: (lookAt: number) => void;
 	index: number;
-	width: string;
-	height: string;
 }
 
-const Icon: React.FC<iconProps> = ({ streamer, setIndex, index, width, height}) => {
+const Icon: React.FC<iconProps> = ({ streamer, setIndex, index }) => {
 	const mountRef = useRef<HTMLDivElement>(null);
 	
 	useEffect(() => {
@@ -53,7 +52,7 @@ const Icon: React.FC<iconProps> = ({ streamer, setIndex, index, width, height}) 
 		}
 	}, [streamer, setIndex, index]);
 
-	return <div ref={mountRef} style={{ width: width, height: height, display: 'inline-block', margin: '5px'}} />;
+	return <div ref={mountRef} className={styles.icon} />;
 }
 
 export default Icon;
