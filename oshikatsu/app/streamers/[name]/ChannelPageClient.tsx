@@ -15,11 +15,39 @@ interface ChannelPageClientProps {
 const ChannelPageClient: React.FC<ChannelPageClientProps> = ({ name }) => {
     const [activeState, setActiveState] = useState('');
 
+		const nameToId = (name: string) => {
+            let id = "";
+            switch(name){
+                case "shaka":
+                    id = "UCjg5-lUiUzdmzzBRY9Xqrhw";
+                    break;
+                case "k4sen":
+                    id = "UChUjERVG8eKEAJSCef-tTmg";
+                    break;
+                case "zerost":
+                    id = "UCBtAasNQYblmWPx1R77tcEA";
+                    break;
+                case "k4sen":
+                    id = "";
+                    break;
+                case "k4sen":
+                    id = "";
+                    break;
+                case "k4sen":
+                    id = "";
+                    break;
+                default:
+                    " "
+                    break
+            }
+            return id;
+		}
+
     const selectContent = () => {
         switch (activeState) {
             case 'youtube':
                 return (
-                    <div><YouTubeVideoList channelId='UCPkKpOHxEDcwmUAnRpIu-Ng'/></div>
+                    <div><YouTubeVideoList channelId={nameToId(name)} /></div>
                     // <div>Youtube</div>
                 );
     
