@@ -19,7 +19,7 @@ export default function RootLayout({
           <Sidebar/>
 
           <div className='main-header'>
-            <header>
+            <header style={{ zIndex: '10'}}>
               <Header />
             </header>
 

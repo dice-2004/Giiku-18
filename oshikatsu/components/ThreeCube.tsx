@@ -184,7 +184,7 @@ const ThreeCude: React.FC<ThreeCudeProps> = ({ streamers, width, height, lookAt 
     };
   }, [streamers]);
 
-  return <div ref={mountRef} style={{ width: width, height: height, display: 'inline-block' }} />;
+  return <div ref={mountRef} style={{ width: width, height: height, display: 'inline-block', zIndex:'10'}} />;
 };
 
 export default ThreeCude;
