@@ -27,7 +27,7 @@ export default function Home() {
       setError('An error occurred while fetching stream info');
     }
   };
-  
+
   // **********************　この上の関数が主要な処理　********************** //
 
   return (

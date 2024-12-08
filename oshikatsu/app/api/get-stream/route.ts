@@ -13,16 +13,16 @@ export async function GET(req: Request) {
 
   try {
     // 環境変数の確認
-    const clientId = process.env.TWITCH_CLIENT_ID;
-    const accessToken = process.env.TWITCH_ACCESS_TOKEN;
+    const clientId = process.env.NEXT_PUBLIC_TWITCH_CLIENT_ID;
+    const accessToken = process.env.NEXT_PUBLIC_TWITCH_ACCESS_TOKEN;
 
     if (!clientId || !accessToken) {
       throw new Error('Twitch client ID or access token is not set');
     }
 
     // 環境変数のログ出力（開発環境でのみ使用）
-    console.log('TWITCH_CLIENT_ID:', clientId);
-    console.log('TWITCH_ACCESS_TOKEN:', accessToken);
+    console.log('NEXT_PUBLIC_TWITCH_CLIENT_ID:', clientId);
+    console.log('NEXT_PUBLIC_TWITCH_ACCESS_TOKEN:', accessToken);
 
     // ユーザー名のエンコーディング
     const encodedUsername = encodeURIComponent(username);
@@ -81,19 +81,30 @@ export async function GET(req: Request) {
     }
 
 
-    console.log('Stream Data:', streamData); // 配信データをログに出力
-    console.log('Stream Video:', streamLog); // 配信データをログに出力
+    // console.log('Stream Data:', streamData); // 配信データをログに出力
+    // console.log('Stream Video:', streamLog); // 配信データをログに出力
 
     // 後はここで必要なデータのみ抽出して返却
+    // 辞書型のデータを初期化
 
-    // responsedata={~~~}
+    const responsedata: { thumbnail_url: string, title: string, view_count: number, published_at: string, duration: string }[] = [];
+    for (let i = 0; i < streamLog.data.length; i++) {
+      responsedata.push({
+        thumbnail_url: streamLog.data[i].thumbnail_url,
+        title: streamLog.data[i].title,
+        view_count: streamLog.data[i].view_count,
+        published_at: streamLog.data[i].published_at,
+        duration: streamLog.data[i].duration
+      });
+    }
+    console.log('Response Data:', responsedata); // 配信データをログに出力
 
     // 配信情報がない場合
     if (streamData.data.length === 0) {
       return NextResponse.json({ message: 'No live stream found' }, { status: 200 });
     }
-    return NextResponse.json(streamData.data[0], { status: 200 });
-    // return NextResponse.json(responsedata, { status: 200 }););
+    // return NextResponse.json(streamData.data[0], { status: 200 });
+    return NextResponse.json(responsedata, { status: 200 }););
 
   } catch (error) {
     console.error('Error fetching data:', error);

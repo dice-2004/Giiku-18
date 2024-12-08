@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { Youtube, Twitch, Twitter, Instagram, Facebook } from 'lucide-react';
 import styles from './style.module.css';
 import YouTubeVideoList from "@/app/components/youtube"
+import TwitchVideoList from "@/app/components/twitch"
 
 
 interface ChannelPageClientProps {
@@ -22,10 +23,10 @@ const ChannelPageClient: React.FC<ChannelPageClientProps> = ({ name }) => {
                     <div><YouTubeVideoList channelId='UCPkKpOHxEDcwmUAnRpIu-Ng'/></div>
                     // <div>Youtube</div>
                 );
-    
+
             case 'twitch':
                 return (
-                    <div>Twitch</div>
+                    <div><TwitchVideoList username='takahashi0426'/></div>
                 );
 
             case 'twitter':
@@ -42,7 +43,7 @@ const ChannelPageClient: React.FC<ChannelPageClientProps> = ({ name }) => {
                 return (
                     <div>Facebook</div>
                 );
-    
+
             default:
                 return <div>No content available</div>;
         }
@@ -57,14 +58,14 @@ const ChannelPageClient: React.FC<ChannelPageClientProps> = ({ name }) => {
                         <button
                             onClick={() => setActiveState('youtube')}
                             className={`
-                                ${styles.navButton} 
+                                ${styles.navButton}
                                 ${activeState === 'youtube' ? `${styles.navButtonActive} ${styles.activeYoutube}` : styles.navButtonNonActive}
                             `}
                         >
                             <Youtube className={styles.icon} />
                             YouTube
                         </button>
-                            
+
                         <button
                             onClick={() => setActiveState('twitch')}
                             className={
