@@ -1,3 +1,15 @@
+
+### 起動
+```
+docker compose up
+```
+[http://localhost:8000](http://localhost:8000)
+
+### メモ
+Next.jsで作成TypeScriptで作成予定
+
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
